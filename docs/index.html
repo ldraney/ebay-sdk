@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ldraney-ebay-sdk</title>
+    <style>
+        :root {
+            --blue: #0654ba;
+            --blue-light: #e8eef5;
+            --green: #2ea043;
+            --amber: #d29922;
+            --gray: #6b7280;
+            --bg: #fafbfc;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: system-ui, -apple-system, sans-serif; color: #1f2937; background: var(--bg); line-height: 1.6; }
+
+        /* Header */
+        header { background: var(--blue); color: white; padding: 3rem 1rem 2.5rem; text-align: center; }
+        header h1 { font-size: 2.2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        header p { font-size: 1.15rem; opacity: 0.9; max-width: 600px; margin: 0 auto; }
+
+        /* Install bar */
+        .install { background: #1e1e1e; color: #d4d4d4; text-align: center; padding: 0.75rem 1rem; font-family: 'SF Mono', 'Fira Code', monospace; font-size: 0.95rem; letter-spacing: 0.02em; }
+        .install span { color: var(--amber); }
+
+        /* Main content */
+        main { max-width: 900px; margin: 0 auto; padding: 2rem 1rem 4rem; }
+
+        /* What / Why */
+        .what { margin-bottom: 2.5rem; }
+        .what h2 { font-size: 1.5rem; color: var(--blue); margin-bottom: 0.75rem; }
+        .what p { max-width: 700px; }
+
+        /* Quick start */
+        .quickstart { margin-bottom: 2.5rem; }
+        .quickstart h2 { font-size: 1.5rem; color: var(--blue); margin-bottom: 0.75rem; }
+        pre { background: #1e1e1e; color: #d4d4d4; padding: 1.25rem; border-radius: 6px; overflow-x: auto; font-size: 0.9rem; line-height: 1.5; margin: 0.75rem 0; }
+        pre .kw { color: #569cd6; }
+        pre .str { color: #ce9178; }
+        pre .cmt { color: #6a9955; }
+
+        /* Status grid */
+        .status { margin-bottom: 2.5rem; }
+        .status h2 { font-size: 1.5rem; color: var(--blue); margin-bottom: 0.5rem; }
+        .status p.subtitle { color: var(--gray); margin-bottom: 1rem; }
+        .api-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 0.75rem; }
+        .api-card { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1rem 1.15rem; }
+        .api-card h3 { font-size: 1rem; margin-bottom: 0.25rem; }
+        .api-card .meta { font-size: 0.85rem; color: var(--gray); }
+        .api-card .spec-count { font-weight: 600; }
+        .api-card a { color: var(--blue); text-decoration: none; font-size: 0.85rem; }
+        .api-card a:hover { text-decoration: underline; }
+        .badge { display: inline-block; font-size: 0.7rem; font-weight: 600; padding: 0.15em 0.5em; border-radius: 3px; text-transform: uppercase; vertical-align: middle; margin-left: 0.4rem; }
+        .badge-wip { background: #fef3c7; color: #92400e; }
+
+        /* Docs nav */
+        .docs-nav { margin-bottom: 2.5rem; }
+        .docs-nav h2 { font-size: 1.5rem; color: var(--blue); margin-bottom: 0.75rem; }
+        .doc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); gap: 0.75rem; }
+        .doc-card { background: white; border: 1px solid #e5e7eb; border-radius: 8px; padding: 1.15rem; text-decoration: none; color: inherit; transition: border-color 0.15s; }
+        .doc-card:hover { border-color: var(--blue); }
+        .doc-card h3 { font-size: 1rem; color: var(--blue); margin-bottom: 0.35rem; }
+        .doc-card p { font-size: 0.9rem; color: var(--gray); }
+
+        /* Project status */
+        .project-status { margin-bottom: 2.5rem; }
+        .project-status h2 { font-size: 1.5rem; color: var(--blue); margin-bottom: 0.75rem; }
+        .milestones { list-style: none; }
+        .milestones li { padding: 0.6rem 0; border-bottom: 1px solid #e5e7eb; display: flex; align-items: baseline; gap: 0.75rem; }
+        .milestones li:last-child { border-bottom: none; }
+        .ms-marker { font-size: 0.8rem; font-weight: 600; width: 5.5rem; flex-shrink: 0; }
+        .ms-done { color: var(--green); }
+        .ms-current { color: var(--amber); }
+        .ms-future { color: var(--gray); }
+        .ms-text { font-size: 0.95rem; }
+        code { background: var(--blue-light); padding: 0.15em 0.4em; border-radius: 3px; font-size: 0.88em; }
+
+        /* Footer */
+        footer { text-align: center; padding: 2rem 1rem; color: var(--gray); font-size: 0.85rem; border-top: 1px solid #e5e7eb; }
+        footer a { color: var(--blue); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>ldraney-ebay-sdk</h1>
+    <p>Python SDK wrapping all eBay REST APIs. The pure Python layer that auth, HTTP, and a future MCP server all build on.</p>
+</header>
+
+<div class="install"><span>$</span> pip install ldraney-ebay-sdk</div>
+
+<main>
+
+<!-- What & Why -->
+<section class="what">
+    <h2>What is this?</h2>
+    <p>A thin, hand-written Python wrapper around every eBay REST API. You provide credentials via
+    <code>ldraney-ebay-oauth</code>, and this SDK gives you typed methods for search, inventory, orders,
+    finances, marketing, and more &mdash; no raw HTTP, no token juggling.</p>
+    <p style="margin-top: 0.5rem;">The end goal: this SDK becomes the foundation for an MCP server that lets AI agents
+    interact with eBay programmatically.</p>
+</section>
+
+<!-- Quick Start -->
+<section class="quickstart">
+    <h2>Quick Start</h2>
+<pre><span class="kw">from</span> ebay_oauth <span class="kw">import</span> EbayOAuthClient
+<span class="kw">from</span> ebay_sdk <span class="kw">import</span> EbayClient
+
+oauth = EbayOAuthClient(client_id=<span class="str">"..."</span>, client_secret=<span class="str">"..."</span>)
+
+<span class="kw">with</span> EbayClient(oauth) <span class="kw">as</span> ebay:
+    results = ebay.buy_browse.search(q=<span class="str">"vintage camera"</span>, limit=5)
+    orders  = ebay.sell_fulfillment.get_orders(limit=5)
+    cats    = ebay.commerce_taxonomy.get_category_suggestions(<span class="str">"0"</span>, <span class="str">"camera"</span>)</pre>
+</section>
+
+<!-- API Status -->
+<section class="status">
+    <h2>API Coverage</h2>
+    <p class="subtitle">217 endpoints across 8 eBay APIs. Code written, sandbox verification in progress.</p>
+    <div class="api-grid">
+        <div class="api-card">
+            <h3>Buy Browse <span class="badge badge-wip">unverified</span></h3>
+            <div class="meta"><span class="spec-count">7</span> endpoints &middot; v1.20.4</div>
+            <a href="https://github.com/ldraney/ebay-sdk/issues/2">GitHub Issue #2</a>
+        </div>
+        <div class="api-card">
+            <h3>Sell Inventory <span class="badge badge-wip">unverified</span></h3>
+            <div class="meta"><span class="spec-count">36</span> endpoints &middot; v1.18.4</div>
+            <a href="https://github.com/ldraney/ebay-sdk/issues/3">GitHub Issue #3</a>
+        </div>
+        <div class="api-card">
+            <h3>Sell Fulfillment <span class="badge badge-wip">unverified</span></h3>
+            <div class="meta"><span class="spec-count">15</span> endpoints &middot; v1.20.7</div>
+            <a href="https://github.com/ldraney/ebay-sdk/issues/4">GitHub Issue #4</a>
+        </div>
+        <div class="api-card">
+            <h3>Sell Account <span class="badge badge-wip">unverified</span></h3>
+            <div class="meta"><span class="spec-count">37</span> endpoints &middot; v1.9.3</div>
+            <a href="https://github.com/ldraney/ebay-sdk/issues/5">GitHub Issue #5</a>
+        </div>
+        <div class="api-card">
+            <h3>Sell Finances <span class="badge badge-wip">unverified</span></h3>
+            <div class="meta"><span class="spec-count">8</span> endpoints &middot; v1.18.0</div>
+            <a href="https://github.com/ldraney/ebay-sdk/issues/6">GitHub Issue #6</a>
+        </div>
+        <div class="api-card">
+            <h3>Sell Marketing <span class="badge badge-wip">unverified</span></h3>
+            <div class="meta"><span class="spec-count">82</span> endpoints &middot; v1.22.2</div>
+            <a href="https://github.com/ldraney/ebay-sdk/issues/7">GitHub Issue #7</a>
+        </div>
+        <div class="api-card">
+            <h3>Sell Feed <span class="badge badge-wip">unverified</span></h3>
+            <div class="meta"><span class="spec-count">23</span> endpoints &middot; v1.3.1</div>
+            <a href="https://github.com/ldraney/ebay-sdk/issues/8">GitHub Issue #8</a>
+        </div>
+        <div class="api-card">
+            <h3>Commerce Taxonomy <span class="badge badge-wip">unverified</span></h3>
+            <div class="meta"><span class="spec-count">9</span> endpoints &middot; v1.1.1</div>
+            <a href="https://github.com/ldraney/ebay-sdk/issues/9">GitHub Issue #9</a>
+        </div>
+    </div>
+</section>
+
+<!-- Docs Navigation -->
+<section class="docs-nav">
+    <h2>Documentation</h2>
+    <div class="doc-grid">
+        <a class="doc-card" href="architecture.html">
+            <h3>Architecture</h3>
+            <p>Three-layer design: OpenAPI specs, Python SDK, MCP server. Auth flow, key decisions.</p>
+        </a>
+        <a class="doc-card" href="roadmap.html">
+            <h3>Roadmap</h3>
+            <p>Milestones from foundation through PyPI release to MCP server.</p>
+        </a>
+        <a class="doc-card" href="user-story.html">
+            <h3>User Stories</h3>
+            <p>Who uses this and why: Python devs, seller tool builders, MCP authors.</p>
+        </a>
+        <a class="doc-card" href="specs.md">
+            <h3>API Specs Reference</h3>
+            <p>All 217 endpoints extracted from eBay's OpenAPI 3.0 specs. The source of truth.</p>
+        </a>
+    </div>
+</section>
+
+<!-- Project Status / Milestones -->
+<section class="project-status">
+    <h2>Project Status</h2>
+    <ul class="milestones">
+        <li>
+            <span class="ms-marker ms-done">DONE</span>
+            <span class="ms-text"><code>ldraney-ebay-oauth</code> published to PyPI</span>
+        </li>
+        <li>
+            <span class="ms-marker ms-done">DONE</span>
+            <span class="ms-text">Project scaffold &mdash; builds, installs, imports</span>
+        </li>
+        <li>
+            <span class="ms-marker ms-current">CURRENT</span>
+            <span class="ms-text">Verify each API against sandbox, one issue at a time (Issues #2&ndash;#9)</span>
+        </li>
+        <li>
+            <span class="ms-marker ms-future">NEXT</span>
+            <span class="ms-text">Publish <code>ldraney-ebay-sdk</code> to PyPI</span>
+        </li>
+        <li>
+            <span class="ms-marker ms-future">FUTURE</span>
+            <span class="ms-text">MCP server wrapping this SDK (separate repo)</span>
+        </li>
+    </ul>
+</section>
+
+</main>
+
+<footer>
+    <a href="https://github.com/ldraney/ebay-sdk">GitHub</a> &middot;
+    <a href="https://pypi.org/project/ldraney-ebay-sdk/">PyPI</a> &middot;
+    <a href="https://github.com/ldraney/ebay-sdk/issues">Issues</a>
+</footer>
+
+</body>
+</html>
