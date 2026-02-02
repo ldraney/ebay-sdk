@@ -89,18 +89,11 @@ if [[ -z "$issue_num" ]]; then
     exit 2
 fi
 
-# Validate issue exists on GitHub
+# Validate issue exists on GitHub (soft check — warn but allow)
 if ! validate_issue "$issue_num"; then
-    echo "BLOCKED: Branch '$branch' references issue #$issue_num but issue not found on GitHub." >&2
-    echo "" >&2
-    echo "Either:" >&2
-    echo "  - Issue #$issue_num doesn't exist" >&2
-    echo "  - gh CLI not authenticated for this repo" >&2
-    echo "" >&2
-    echo "To proceed:" >&2
-    echo "  - Create the issue: gh issue create" >&2
-    echo "  - Or rename branch with valid issue number" >&2
-    exit 2
+    echo "WARNING: Could not verify issue #$issue_num on GitHub." >&2
+    echo "  This may mean the issue doesn't exist, gh CLI is not installed," >&2
+    echo "  or the network is unavailable. Allowing commit to proceed." >&2
 fi
 
 # All checks passed

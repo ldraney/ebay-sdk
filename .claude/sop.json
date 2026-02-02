@@ -8,7 +8,7 @@
         "PreToolUse"
       ],
       "matcher": "Bash",
-      "condition": "git.*(ci|push|merge)",
+      "condition": "git\\s+(commit|push|merge)",
       "validator": "validators/no-main-commit.sh",
       "enabled": true
     }

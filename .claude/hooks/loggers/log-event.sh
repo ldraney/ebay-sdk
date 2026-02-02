@@ -12,9 +12,9 @@ set -e
 # Read hook input from stdin
 input=$(cat)
 
-# Extract fields from hook input
-event=$(echo "$input" | jq -r '.hook_event_name // .event // "unknown"')
-tool=$(echo "$input" | jq -r '.tool_name // .tool // "none"')
+# Extract fields from engine.sh synthetic JSON
+event=$(echo "$input" | jq -r '.event // "unknown"')
+tool=$(echo "$input" | jq -r '.tool // "none"')
 cwd=$(echo "$input" | jq -r '.cwd // ""')
 
 # Get timestamp in ISO format
