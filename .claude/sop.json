@@ -1,0 +1,33 @@
+{
+  "version": "1.0",
+  "enforcement": "hard",
+  "rules": {
+    "no-main-commit": {
+      "description": "Block direct work on main/master and require issue branch",
+      "events": [
+        "PreToolUse"
+      ],
+      "matcher": "Bash",
+      "condition": "git\\s+(commit|push|merge)",
+      "validator": "validators/no-main-commit.sh",
+      "enabled": true
+    }
+  },
+  "logging": {
+    "enabled": true,
+    "stderr": true,
+    "file": "~/.claude/logs/sop-hooks.jsonl",
+    "events": [
+      "PreToolUse",
+      "Stop"
+    ],
+    "include_blocked_only": false,
+    "handler": "loggers/log-event.sh"
+  },
+  "subagents": {
+    "inherit_rules": true
+  },
+  "mcp": {},
+  "skills": {},
+  "agents": {}
+}
