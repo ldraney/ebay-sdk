@@ -44,7 +44,7 @@ class TestOrders:
             result = ebay.sell_fulfillment.issue_refund(order_id, body)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"issue_refund not available: {exc.status_code}")
             raise
 
@@ -61,7 +61,7 @@ class TestShippingFulfillment:
             result = ebay.sell_fulfillment.get_shipping_fulfillments(order_id)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(
                     f"get_shipping_fulfillments not available: {exc.status_code}"
                 )
@@ -121,7 +121,7 @@ class TestShippingFulfillment:
                 assert isinstance(result, dict)
                 return
             except EbayApiError as exc:
-                if exc.status_code in (400, 403, 404, 409):
+                if exc.status_code in (403, 404, 409):
                     pytest.skip(
                         f"create_shipping_fulfillment not available: "
                         f"{exc.status_code}"
@@ -159,7 +159,7 @@ class TestPaymentDisputes:
             )
             assert result is None or isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(
                     f"accept_payment_dispute not available: {exc.status_code}"
                 )
@@ -181,7 +181,7 @@ class TestPaymentDisputes:
             )
             assert result is None or isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(
                     f"contest_payment_dispute not available: {exc.status_code}"
                 )
@@ -199,7 +199,7 @@ class TestPaymentDisputes:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(
                     f"get_payment_dispute_activity not available: "
                     f"{exc.status_code}"
@@ -248,7 +248,7 @@ class TestPaymentDisputes:
             result = ebay.sell_fulfillment.add_evidence(dispute_id, body)
             assert result is None or isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"add_evidence not available: {exc.status_code}")
             raise
 
@@ -266,7 +266,7 @@ class TestPaymentDisputes:
             result = ebay.sell_fulfillment.update_evidence(dispute_id, body)
             assert result is None or isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(
                     f"update_evidence not available: {exc.status_code}"
                 )

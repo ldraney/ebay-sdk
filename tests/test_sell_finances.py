@@ -22,7 +22,7 @@ class TestPayouts:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(f"get_payouts with sort failed: {exc.status_code}")
             raise
 
@@ -47,7 +47,7 @@ class TestPayouts:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(
                     f"get_payout_summary with filter failed: {exc.status_code}"
                 )
@@ -67,7 +67,7 @@ class TestTransactions:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(
                     f"get_transactions with sort failed: {exc.status_code}"
                 )
@@ -84,7 +84,7 @@ class TestTransactions:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(
                     f"get_transaction_summary with filter failed: {exc.status_code}"
                 )
@@ -93,17 +93,10 @@ class TestTransactions:
 
 @pytest.mark.integration
 class TestTransfer:
+    @pytest.mark.skip(reason="Transfers are rare in sandbox; no real transfer ID available")
     def test_get_transfer(self, ebay: EbayClient):
-        # Transfers are rare — try a known ID and skip if not found
-        try:
-            result = ebay.sell_finances.get_transfer("SDK-TEST-TRANSFER-001")
-            assert isinstance(result, dict)
-        except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
-                pytest.skip(
-                    f"get_transfer not available: {exc.status_code}"
-                )
-            raise
+        result = ebay.sell_finances.get_transfer("SDK-TEST-TRANSFER-001")
+        assert isinstance(result, dict)
 
 
 @pytest.mark.integration
@@ -120,7 +113,7 @@ class TestWithholdingTax:
             result = ebay.sell_finances.get_withholding_tax(limit=5)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(
                     f"get_withholding_tax not available: {exc.status_code}"
                 )
@@ -134,7 +127,7 @@ class TestWithholdingTax:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(
                     f"get_withholding_tax with filter failed: {exc.status_code}"
                 )

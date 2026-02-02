@@ -73,7 +73,7 @@ class TestCampaigns:
             result = ebay.sell_marketing.get_campaign_by_name(name)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"get_campaign_by_name not available: {exc.status_code}")
             raise
 
@@ -115,32 +115,32 @@ class TestCampaigns:
                     {"campaignName": "SDK-TEST-MKT-CAMPAIGN-UPD"},
                 )
             except EbayApiError as exc:
-                if exc.status_code not in (400, 403, 409):
+                if exc.status_code not in (403, 409):
                     raise
 
             # pause
             try:
                 ebay.sell_marketing.pause_campaign(campaign_id)
             except EbayApiError as exc:
-                if exc.status_code not in (400, 403, 409):
+                if exc.status_code not in (403, 409):
                     raise
 
             # resume
             try:
                 ebay.sell_marketing.resume_campaign(campaign_id)
             except EbayApiError as exc:
-                if exc.status_code not in (400, 403, 409):
+                if exc.status_code not in (403, 409):
                     raise
 
             # end
             try:
                 ebay.sell_marketing.end_campaign(campaign_id)
             except EbayApiError as exc:
-                if exc.status_code not in (400, 403, 409):
+                if exc.status_code not in (403, 409):
                     raise
 
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 409):
+            if exc.status_code in (403, 409):
                 pytest.skip(f"Campaign lifecycle not available in sandbox: {exc.status_code}")
             raise
         finally:
@@ -163,7 +163,7 @@ class TestCampaigns:
                 clone_id = result["campaignId"]
             assert result is not None
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 409):
+            if exc.status_code in (403, 409):
                 pytest.skip(f"clone_campaign not available: {exc.status_code}")
             raise
         finally:
@@ -180,7 +180,7 @@ class TestCampaigns:
             result = ebay.sell_marketing.suggest_budget(campaign_id)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"suggest_budget not available: {exc.status_code}")
             raise
 
@@ -193,7 +193,7 @@ class TestCampaigns:
                 {"dailyBudget": {"value": "10.00", "currency": "USD"}},
             )
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"update_campaign_budget not available: {exc.status_code}")
             raise
 
@@ -204,7 +204,7 @@ class TestCampaigns:
             result = ebay.sell_marketing.suggest_items(campaign_id, limit=5)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"suggest_items not available: {exc.status_code}")
             raise
 
@@ -240,7 +240,7 @@ class TestAds:
             )
             assert result is not None
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"create_ad_by_listing_id not available: {exc.status_code}")
             raise
 
@@ -252,7 +252,7 @@ class TestAds:
         try:
             ebay.sell_marketing.delete_ad(campaign_id, ad_id)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"delete_ad not available: {exc.status_code}")
             raise
 
@@ -266,7 +266,7 @@ class TestAds:
                 campaign_id, ad_id, {"bidPercentage": "3.0"},
             )
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"update_bid not available: {exc.status_code}")
             raise
 
@@ -288,7 +288,7 @@ class TestAds:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"bulk_create_ads_by_inventory_reference not available: {exc.status_code}")
             raise
 
@@ -309,7 +309,7 @@ class TestAds:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"bulk_create_ads_by_listing_id not available: {exc.status_code}")
             raise
 
@@ -330,7 +330,7 @@ class TestAds:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"bulk_delete_ads_by_inventory_reference not available: {exc.status_code}")
             raise
 
@@ -344,7 +344,7 @@ class TestAds:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"bulk_delete_ads_by_listing_id not available: {exc.status_code}")
             raise
 
@@ -366,7 +366,7 @@ class TestAds:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"bulk_update_ads_bid_by_inventory_reference not available: {exc.status_code}")
             raise
 
@@ -387,7 +387,7 @@ class TestAds:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"bulk_update_ads_bid_by_listing_id not available: {exc.status_code}")
             raise
 
@@ -403,7 +403,7 @@ class TestAds:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"bulk_update_ads_status not available: {exc.status_code}")
             raise
 
@@ -424,7 +424,7 @@ class TestAds:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"bulk_update_ads_status_by_listing_id not available: {exc.status_code}")
             raise
 
@@ -442,7 +442,7 @@ class TestAdGroups:
             result = ebay.sell_marketing.get_ad_groups(campaign_id, limit=5)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"get_ad_groups not available: {exc.status_code}")
             raise
 
@@ -452,7 +452,7 @@ class TestAdGroups:
         try:
             groups_result = ebay.sell_marketing.get_ad_groups(campaign_id, limit=1)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"get_ad_groups not available: {exc.status_code}")
             raise
         groups = groups_result.get("adGroups", [])
@@ -476,7 +476,7 @@ class TestAdGroups:
             )
             assert result is not None
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"create_ad_group not available: {exc.status_code}")
             raise
 
@@ -486,7 +486,7 @@ class TestAdGroups:
         try:
             groups_result = ebay.sell_marketing.get_ad_groups(campaign_id, limit=1)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"get_ad_groups not available: {exc.status_code}")
             raise
         groups = groups_result.get("adGroups", [])
@@ -500,7 +500,7 @@ class TestAdGroups:
                 {"defaultBid": {"value": "1.50", "currency": "USD"}},
             )
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"update_ad_group not available: {exc.status_code}")
             raise
 
@@ -516,7 +516,7 @@ class TestKeywords:
         try:
             groups_result = ebay.sell_marketing.get_ad_groups(campaign_id, limit=1)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"get_ad_groups not available: {exc.status_code}")
             raise
         groups = groups_result.get("adGroups", [])
@@ -534,7 +534,7 @@ class TestKeywords:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"get_keywords not available: {exc.status_code}")
             raise
 
@@ -547,7 +547,7 @@ class TestKeywords:
                 campaign_id, ad_group_id, limit=1,
             )
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"get_keywords not available: {exc.status_code}")
             raise
         keywords = kw_result.get("keywords", [])
@@ -574,7 +574,7 @@ class TestKeywords:
             )
             assert result is not None
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"create_keyword not available: {exc.status_code}")
             raise
 
@@ -598,7 +598,7 @@ class TestKeywords:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"bulk_create_keyword not available: {exc.status_code}")
             raise
 
@@ -611,7 +611,7 @@ class TestKeywords:
                 campaign_id, ad_group_id, limit=1,
             )
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"get_keywords not available: {exc.status_code}")
             raise
         keywords = kw_result.get("keywords", [])
@@ -632,7 +632,7 @@ class TestKeywords:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"bulk_update_keyword not available: {exc.status_code}")
             raise
 
@@ -645,7 +645,7 @@ class TestKeywords:
                 campaign_id, ad_group_id, limit=1,
             )
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"get_keywords not available: {exc.status_code}")
             raise
         keywords = kw_result.get("keywords", [])
@@ -659,7 +659,7 @@ class TestKeywords:
                 {"bid": {"value": "0.60", "currency": "USD"}},
             )
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"update_keyword not available: {exc.status_code}")
             raise
 
@@ -678,7 +678,7 @@ class TestNegativeKeywords:
             result = ebay.sell_marketing.get_negative_keywords(campaign_id, limit=5)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"get_negative_keywords not available: {exc.status_code}")
             raise
 
@@ -688,7 +688,7 @@ class TestNegativeKeywords:
         try:
             nk_result = ebay.sell_marketing.get_negative_keywords(campaign_id, limit=1)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"get_negative_keywords not available: {exc.status_code}")
             raise
         neg_keywords = nk_result.get("negativeKeywords", [])
@@ -712,7 +712,7 @@ class TestNegativeKeywords:
             )
             assert result is not None
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"create_negative_keyword not available: {exc.status_code}")
             raise
 
@@ -733,7 +733,7 @@ class TestNegativeKeywords:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"bulk_create_negative_keyword not available: {exc.status_code}")
             raise
 
@@ -743,7 +743,7 @@ class TestNegativeKeywords:
         try:
             nk_result = ebay.sell_marketing.get_negative_keywords(campaign_id, limit=1)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"get_negative_keywords not available: {exc.status_code}")
             raise
         neg_keywords = nk_result.get("negativeKeywords", [])
@@ -765,7 +765,7 @@ class TestNegativeKeywords:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"bulk_update_negative_keyword not available: {exc.status_code}")
             raise
 
@@ -775,7 +775,7 @@ class TestNegativeKeywords:
         try:
             nk_result = ebay.sell_marketing.get_negative_keywords(campaign_id, limit=1)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"get_negative_keywords not available: {exc.status_code}")
             raise
         neg_keywords = nk_result.get("negativeKeywords", [])
@@ -789,7 +789,7 @@ class TestNegativeKeywords:
                 {"keywordText": "sdk negative updated", "matchType": "BROAD"},
             )
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"update_negative_keyword not available: {exc.status_code}")
             raise
 
@@ -839,7 +839,7 @@ class TestPromotions:
                 promotion_id = result["promotionId"]
             assert result is not None
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 409):
+            if exc.status_code in (403, 409):
                 pytest.skip(f"create_item_price_markdown_promotion not available: {exc.status_code}")
             raise
         finally:
@@ -865,7 +865,7 @@ class TestPromotions:
                 },
             )
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"update_item_price_markdown_promotion not available: {exc.status_code}")
             raise
 
@@ -878,18 +878,13 @@ class TestPromotions:
             result = ebay.sell_marketing.get_item_price_markdown_promotion(promotion_id)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"get_item_price_markdown_promotion not available: {exc.status_code}")
             raise
 
+    @pytest.mark.skip(reason="No real promotion to delete; fake ID always 404s")
     def test_delete_item_price_markdown_promotion(self, ebay: EbayClient):
-        """Attempts deletion on a non-existent promotion; expects 404 skip."""
-        try:
-            ebay.sell_marketing.delete_item_price_markdown_promotion("SDK-TEST-FAKE-ID")
-        except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
-                pytest.skip(f"delete_item_price_markdown_promotion not available: {exc.status_code}")
-            raise
+        ebay.sell_marketing.delete_item_price_markdown_promotion("SDK-TEST-FAKE-ID")
 
     def test_create_and_delete_item_promotion(self, ebay: EbayClient):
         promotion_id = None
@@ -918,7 +913,7 @@ class TestPromotions:
                 promotion_id = result["promotionId"]
             assert result is not None
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 409):
+            if exc.status_code in (403, 409):
                 pytest.skip(f"create_item_promotion not available: {exc.status_code}")
             raise
         finally:
@@ -944,7 +939,7 @@ class TestPromotions:
                 },
             )
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"update_item_promotion not available: {exc.status_code}")
             raise
 
@@ -957,18 +952,13 @@ class TestPromotions:
             result = ebay.sell_marketing.get_item_promotion(promotion_id)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"get_item_promotion not available: {exc.status_code}")
             raise
 
+    @pytest.mark.skip(reason="No real promotion to delete; fake ID always 404s")
     def test_delete_item_promotion(self, ebay: EbayClient):
-        """Attempts deletion on a non-existent promotion; expects 404 skip."""
-        try:
-            ebay.sell_marketing.delete_item_promotion("SDK-TEST-FAKE-ID")
-        except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
-                pytest.skip(f"delete_item_promotion not available: {exc.status_code}")
-            raise
+        ebay.sell_marketing.delete_item_promotion("SDK-TEST-FAKE-ID")
 
     def test_pause_promotion(self, ebay: EbayClient):
         promo = _get_or_skip_promotion(ebay)
@@ -978,7 +968,7 @@ class TestPromotions:
         try:
             ebay.sell_marketing.pause_promotion(promotion_id)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"pause_promotion not available: {exc.status_code}")
             raise
 
@@ -990,7 +980,7 @@ class TestPromotions:
         try:
             ebay.sell_marketing.resume_promotion(promotion_id)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"resume_promotion not available: {exc.status_code}")
             raise
 
@@ -1031,7 +1021,7 @@ class TestReports:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(
                     f"get_report_metadata_for_report_type not available: {exc.status_code}"
                 )
@@ -1051,7 +1041,7 @@ class TestReports:
             )
             assert result is not None
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 409):
+            if exc.status_code in (403, 409):
                 pytest.skip(f"create_report_task not available: {exc.status_code}")
             raise
 
@@ -1065,14 +1055,9 @@ class TestReports:
         assert isinstance(result, dict)
         assert result["reportTaskId"] == task_id
 
+    @pytest.mark.skip(reason="No real report task to delete; fake ID always 404s")
     def test_delete_report_task(self, ebay: EbayClient):
-        """Attempts deletion on a non-existent task; expects 404 skip."""
-        try:
-            ebay.sell_marketing.delete_report_task("SDK-TEST-FAKE-TASK-ID")
-        except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
-                pytest.skip(f"delete_report_task not available: {exc.status_code}")
-            raise
+        ebay.sell_marketing.delete_report_task("SDK-TEST-FAKE-TASK-ID")
 
     def test_get_report(self, ebay: EbayClient):
         tasks_result = ebay.sell_marketing.get_report_tasks(limit=5)
@@ -1086,6 +1071,6 @@ class TestReports:
             result = ebay.sell_marketing.get_report(task_id)
             assert result is not None
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"get_report not available: {exc.status_code}")
             raise

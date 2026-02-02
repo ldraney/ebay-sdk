@@ -52,7 +52,7 @@ class TestCustomPolicy:
             # update may return 200 with body or 204 empty
             assert updated is None or isinstance(updated, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 409):
+            if exc.status_code in (403, 409):
                 pytest.skip(f"Custom policy CRUD not available: {exc.status_code}")
             raise
 
@@ -128,7 +128,7 @@ class TestFulfillmentPolicy:
             updated = ebay.sell_account.update_fulfillment_policy(policy_id, body)
             assert updated is None or isinstance(updated, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 409):
+            if exc.status_code in (403, 409):
                 pytest.skip(
                     f"Fulfillment policy CRUD not available: {exc.status_code}"
                 )
@@ -206,7 +206,7 @@ class TestPaymentPolicy:
             updated = ebay.sell_account.update_payment_policy(policy_id, body)
             assert updated is None or isinstance(updated, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 409):
+            if exc.status_code in (403, 409):
                 pytest.skip(
                     f"Payment policy CRUD not available: {exc.status_code}"
                 )
@@ -287,7 +287,7 @@ class TestReturnPolicy:
             updated = ebay.sell_account.update_return_policy(policy_id, body)
             assert updated is None or isinstance(updated, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 409):
+            if exc.status_code in (403, 409):
                 pytest.skip(
                     f"Return policy CRUD not available: {exc.status_code}"
                 )
@@ -334,7 +334,7 @@ class TestPaymentsProgram:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(
                     f"Payments program not available: {exc.status_code}"
                 )
@@ -347,7 +347,7 @@ class TestPaymentsProgram:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(
                     f"Payments program onboarding not available: {exc.status_code}"
                 )
@@ -391,7 +391,7 @@ class TestProgram:
             )
             assert result is None or isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 409):
+            if exc.status_code in (403, 409):
                 pytest.skip(f"Opt-in not available: {exc.status_code}")
             raise
 
@@ -403,7 +403,7 @@ class TestProgram:
             )
             assert result is None or isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 409):
+            if exc.status_code in (403, 409):
                 pytest.skip(f"Opt-out not available: {exc.status_code}")
             raise
 
@@ -420,7 +420,7 @@ class TestKyc:
             result = ebay.sell_account.get_kyc()
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"KYC not available: {exc.status_code}")
             raise
 
@@ -490,7 +490,7 @@ class TestSalesTax:
             )
             assert isinstance(fetched, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(f"Sales tax CRUD not available: {exc.status_code}")
             raise
         finally:

@@ -25,18 +25,21 @@ class TestSearch:
             q="phone", limit=2, sort="price", filter="price:[50..200]"
         )
         assert isinstance(result, dict)
+        assert "itemSummaries" in result or "total" in result
 
     def test_search_with_aspect_filter(self, ebay: EbayClient):
         result = ebay.buy_browse.search(
             q="laptop", limit=2, aspect_filter="categoryId:177"
         )
         assert isinstance(result, dict)
+        assert "itemSummaries" in result or "total" in result
 
     def test_search_with_fieldgroups(self, ebay: EbayClient):
         result = ebay.buy_browse.search(
             q="test", limit=1, fieldgroups="MATCHING_ITEMS"
         )
         assert isinstance(result, dict)
+        assert "itemSummaries" in result or "total" in result
 
     def test_search_by_image(self, ebay: EbayClient):
         try:
@@ -46,6 +49,7 @@ class TestSearch:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
+            # 400 kept: sandbox rejects image URLs that don't resolve
             if exc.status_code in (400, 403, 404, 409, 500):
                 pytest.skip(
                     f"search_by_image not available in sandbox: {exc.status_code}"
@@ -72,7 +76,7 @@ class TestItem:
             item = ebay.buy_browse.get_item(item_id, fieldgroups="PRODUCT")
             assert item["itemId"] == item_id
         except EbayApiError as exc:
-            if exc.status_code in (400, 404):
+            if exc.status_code in (404,):
                 pytest.skip(f"get_item with fieldgroups failed: {exc.status_code}")
             raise
 
@@ -91,7 +95,7 @@ class TestItem:
             assert isinstance(item, dict)
             assert "itemId" in item
         except EbayApiError as exc:
-            if exc.status_code in (400, 404):
+            if exc.status_code in (404,):
                 pytest.skip(f"get_item_by_legacy_id failed: {exc.status_code}")
             raise
 
@@ -121,8 +125,9 @@ class TestItem:
         try:
             result = ebay.buy_browse.get_items_by_item_group(group_id)
             assert isinstance(result, dict)
+            assert "items" in result or "commonDescriptions" in result
         except EbayApiError as exc:
-            if exc.status_code in (400, 404):
+            if exc.status_code in (404,):
                 pytest.skip(
                     f"get_items_by_item_group failed: {exc.status_code}"
                 )
@@ -145,7 +150,9 @@ class TestItem:
                 ],
             )
             assert isinstance(result, dict)
+            assert "compatibilityStatus" in result
         except EbayApiError as exc:
+            # 400 kept: sandbox items may not support compatibility checks
             if exc.status_code in (400, 404, 409):
                 pytest.skip(
                     f"check_compatibility not available: {exc.status_code}"

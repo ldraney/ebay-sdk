@@ -24,7 +24,7 @@ class TestTasks:
             result = ebay.sell_feed.create_task(body)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 409):
+            if exc.status_code in (403, 409):
                 pytest.skip(f"create_task not available: {exc.status_code}")
             raise
 
@@ -53,7 +53,7 @@ class TestTasks:
             result = ebay.sell_feed.upload_file(target["taskId"], {})
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404, 409):
+            if exc.status_code in (403, 404, 409):
                 pytest.skip(f"upload_file not available: {exc.status_code}")
             raise
 
@@ -71,7 +71,7 @@ class TestTasks:
             result = ebay.sell_feed.download_result_file(target["taskId"])
             assert result is not None
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(f"download_result_file not available: {exc.status_code}")
             raise
 
@@ -97,7 +97,7 @@ class TestOrderTasks:
             result = ebay.sell_feed.create_order_task(body)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 409):
+            if exc.status_code in (403, 409):
                 pytest.skip(f"create_order_task not available: {exc.status_code}")
             raise
 
@@ -127,7 +127,7 @@ class TestInventoryTasks:
             result = ebay.sell_feed.create_inventory_task(body)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 409):
+            if exc.status_code in (403, 409):
                 pytest.skip(f"create_inventory_task not available: {exc.status_code}")
             raise
 
@@ -157,7 +157,7 @@ class TestCustomerServiceMetricTasks:
             result = ebay.sell_feed.create_customer_service_metric_task(body)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 409):
+            if exc.status_code in (403, 409):
                 pytest.skip(
                     f"create_customer_service_metric_task not available: "
                     f"{exc.status_code}"
@@ -182,7 +182,7 @@ class TestSchedules:
             result = ebay.sell_feed.get_schedules("LMS_ORDER_REPORT", limit=5)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(f"get_schedules not available: {exc.status_code}")
             raise
 
@@ -223,7 +223,7 @@ class TestSchedules:
             assert update_result is None or isinstance(update_result, dict)
 
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 409):
+            if exc.status_code in (403, 409):
                 pytest.skip(f"Schedule CRUD not available: {exc.status_code}")
             raise
         finally:
@@ -237,7 +237,7 @@ class TestSchedules:
         try:
             schedules = ebay.sell_feed.get_schedules("LMS_ORDER_REPORT", limit=1)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(f"get_schedules not available: {exc.status_code}")
             raise
         items = schedules.get("schedules", [])
@@ -248,19 +248,19 @@ class TestSchedules:
         assert isinstance(result, dict)
         assert result["scheduleId"] == schedule_id
 
+    @pytest.mark.skip(reason="delete_schedule covered by CRUD lifecycle test")
     def test_delete_schedule(self, ebay: EbayClient):
-        # Covered by create_get_update_delete_schedule; standalone skip
-        pytest.skip("delete_schedule covered by CRUD lifecycle test")
+        pass
 
+    @pytest.mark.skip(reason="update_schedule covered by CRUD lifecycle test")
     def test_update_schedule(self, ebay: EbayClient):
-        # Covered by create_get_update_delete_schedule; standalone skip
-        pytest.skip("update_schedule covered by CRUD lifecycle test")
+        pass
 
     def test_get_latest_result_file(self, ebay: EbayClient):
         try:
             schedules = ebay.sell_feed.get_schedules("LMS_ORDER_REPORT", limit=5)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(f"get_schedules not available: {exc.status_code}")
             raise
         items = schedules.get("schedules", [])
@@ -271,7 +271,7 @@ class TestSchedules:
             result = ebay.sell_feed.get_latest_result_file(schedule_id)
             assert result is not None
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(
                     f"get_latest_result_file not available: {exc.status_code}"
                 )

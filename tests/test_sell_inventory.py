@@ -197,7 +197,7 @@ class TestInventoryItem:
             result = ebay.sell_inventory.bulk_update_price_quantity(body)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(
                     f"bulk_update_price_quantity not available: {exc.status_code}"
                 )
@@ -217,7 +217,7 @@ class TestOffer:
             result = ebay.sell_inventory.get_offers(limit=5)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 404):
+            if exc.status_code in (404,):
                 pytest.skip(f"get_offers returned {exc.status_code}")
             raise
 
@@ -239,7 +239,7 @@ class TestOffer:
             result = ebay.sell_inventory.get_offers(sku=sku)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 404):
+            if exc.status_code in (404,):
                 pytest.skip(f"get_offers by sku returned {exc.status_code}")
             raise
         finally:
@@ -297,7 +297,7 @@ class TestOffer:
                 except EbayApiError:
                     pass
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(
                     f"create_offer failed (policies not configured?): {exc.status_code}"
                 )
@@ -333,7 +333,7 @@ class TestOffer:
             # update_offer may return 204 (None) or a dict
             assert result is None or isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(f"update_offer returned {exc.status_code}")
             raise
 
@@ -369,7 +369,7 @@ class TestOffer:
             else:
                 pytest.skip("Offer creation did not return an offerId")
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(
                     f"Offer create/delete failed (policies?): {exc.status_code}"
                 )
@@ -398,7 +398,7 @@ class TestOffer:
             result = ebay.sell_inventory.publish_offer(offer_id)
             assert result is None or isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(f"publish_offer returned {exc.status_code}")
             raise
 
@@ -420,7 +420,7 @@ class TestOffer:
             result = ebay.sell_inventory.withdraw_offer(offer_id)
             assert result is None or isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(f"withdraw_offer returned {exc.status_code}")
             raise
 
@@ -434,7 +434,7 @@ class TestOffer:
             result = ebay.sell_inventory.publish_offer_by_inventory_item_group(body)
             assert result is None or isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(
                     f"publish_offer_by_inventory_item_group returned {exc.status_code}"
                 )
@@ -450,7 +450,7 @@ class TestOffer:
             result = ebay.sell_inventory.withdraw_offer_by_inventory_item_group(body)
             assert result is None or isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403, 404):
+            if exc.status_code in (403, 404):
                 pytest.skip(
                     f"withdraw_offer_by_inventory_item_group returned {exc.status_code}"
                 )
@@ -462,7 +462,7 @@ class TestOffer:
             result = ebay.sell_inventory.get_listing_fees(None)
             assert result is None or isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(f"get_listing_fees returned {exc.status_code}")
             raise
 
@@ -483,7 +483,7 @@ class TestOffer:
             )
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(f"get_listing_fees returned {exc.status_code}")
             raise
 
@@ -541,7 +541,7 @@ class TestInventoryItemGroup:
             assert isinstance(result, dict)
             assert result.get("inventoryItemGroupKey") == group_key
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(
                     f"Inventory item group CRUD failed: {exc.status_code}"
                 )
@@ -602,7 +602,7 @@ class TestInventoryItemGroup:
                 ebay.sell_inventory.get_inventory_item_group(group_key)
             assert exc_info.value.status_code == 404
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(
                     f"Inventory item group delete test failed: {exc.status_code}"
                 )
@@ -888,7 +888,7 @@ class TestProductCompatibility:
 
             ebay.sell_inventory.delete_product_compatibility(sku)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(
                     f"Product compatibility CRUD failed: {exc.status_code}"
                 )
@@ -966,7 +966,7 @@ class TestProductCompatibility:
                 ebay.sell_inventory.get_product_compatibility(sku)
             assert exc_info.value.status_code in (404, 400)
         except EbayApiError as exc:
-            if exc.status_code in (400, 403):
+            if exc.status_code in (403,):
                 pytest.skip(
                     f"Product compatibility delete test failed: {exc.status_code}"
                 )

@@ -42,7 +42,7 @@ class TestCategoryTree:
             result = ebay.commerce_taxonomy.get_expired_categories(tree_id)
             assert isinstance(result, dict)
         except EbayApiError as exc:
-            if exc.status_code in (204, 400, 404):
+            if exc.status_code in (404,):
                 pytest.skip(
                     f"get_expired_categories not available: {exc.status_code}"
                 )
@@ -56,7 +56,7 @@ class TestCategoryTree:
             # May return a URL or binary data reference
             assert result is not None
         except EbayApiError as exc:
-            if exc.status_code in (400, 404, 500):
+            if exc.status_code in (404, 500):
                 pytest.skip(
                     f"fetch_item_aspects not available: {exc.status_code}"
                 )
@@ -86,7 +86,7 @@ class TestCompatibility:
             assert isinstance(result, dict)
             assert "compatibilityProperties" in result
         except EbayApiError as exc:
-            if exc.status_code in (400, 404):
+            if exc.status_code in (404,):
                 pytest.skip(
                     f"get_compatibility_properties failed: {exc.status_code}"
                 )
@@ -106,7 +106,7 @@ class TestCompatibility:
                 or "total" in result
             )
         except EbayApiError as exc:
-            if exc.status_code in (400, 404):
+            if exc.status_code in (404,):
                 pytest.skip(
                     f"get_compatibility_property_values failed: {exc.status_code}"
                 )
@@ -123,8 +123,9 @@ class TestCompatibility:
                 filter="Year:2020",
             )
             assert isinstance(result, dict)
+            assert "compatibilityPropertyValues" in result or "total" in result
         except EbayApiError as exc:
-            if exc.status_code in (400, 404):
+            if exc.status_code in (404,):
                 pytest.skip(
                     f"get_compatibility_property_values with filter failed: {exc.status_code}"
                 )
